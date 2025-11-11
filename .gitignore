@@ -1,0 +1,15 @@
+This is a .gitignore file for your main project folder (BOX_SMART_PROJECT)
+
+It's good practice to have one here.
+
+Ignore all node_modules folders in any sub-directory
+
+**/node_modules
+
+Ignore all .env files in any sub-directory
+
+**/.env
+
+Ignore system files
+
+.DS_Store
