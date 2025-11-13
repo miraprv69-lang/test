@@ -1,67 +1,102 @@
-// Use require('dotenv').config() to load environment variables from .env
-require('dotenv').config();
-const express = require('express');
-const cors =require('cors');
-const { Pool } = require('pg'); // Import the pg Pool
+import 'dotenv/config'; // <-- THIS IS THE FIX
+import express from 'express';
+import cors from 'cors';
+import pg from 'pg';
 
-// --- Server Setup ---
+// --- Configuration ---
 const app = express();
-const PORT = process.env.PORT || 3001; // Backend runs on a different port
+const port = process.env.PORT || 3001;
+const { Pool } = pg;
 
-// --- Database Connection ---
-// The Pool will use the environment variables (PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT)
-// We loaded from the .env file.
-const pool = new Pool();
+// Create a new pool instance for database connections
+// It will automatically use the environment variables (PGUSER, PGHOST, PGDATABASE, PGPASSWORD, PGPORT)
+const pool = new Pool({
+  ssl: process.env.PGHOST !== 'localhost' ? { rejectUnauthorized: false } : false,
+});
+
+// Test database connection on startup
+const testDbConnection = async () => {
+  let client;
+  try {
+    client = await pool.connect();
+    console.log('Database connection successful!');
+    const res = await client.query('SELECT NOW()');
+    console.log('Database time:', res.rows[0].now);
+    client.release();
+    return true;
+  } catch (err) {
+    if (client) client.release();
+    console.error('Failed to connect to the database:', err);
+    return false;
+  }
+};
 
 // --- Middleware ---
-// Enable CORS (Cross-Origin Resource Sharing)
-// This allows your React app (e.g., on localhost:5173) to make requests to this server (on localhost:3001)
-app.use(cors());
-
-// Enable Express to parse JSON in request bodies
-app.use(express.json());
+// Enable Cross-Origin Resource Sharing for all routes
+// This allows your React app (on port 5173) to talk to your backend (on port 3001)
+app.use(cors()); 
+app.use(express.json()); // Parse incoming JSON request bodies
 
 // --- API Routes ---
 
-// A simple test route to check database connection
+// Root welcome message
+app.get('/api', (req, res) => {
+  res.json({ message: 'Welcome to the Box Smart E-Commerce API!' });
+});
+
+// 1. Test Database Connection
 app.get('/api/test-db', async (req, res) => {
+  let client;
   try {
-    const result = await pool.query('SELECT NOW()'); // Simple query to check connection
+    client = await pool.connect();
+    const result = await client.query('SELECT NOW()');
+    client.release();
     res.json({
       message: 'Database connection successful!',
       time: result.rows[0].now,
     });
-  } catch (error) {
-    console.error('Database connection error:', error);
-    res.status(500).json({ error: 'Failed to connect to database.' });
+  } catch (err) {
+    if (client) client.release();
+    console.error('Database connection test failed:', err);
+    res.status(500).json({ message: 'Database connection failed', error: err.message });
   }
 });
 
-/**
- * GET /api/products
- * A placeholder for fetching all products.
- * We will implement this fully once you create your 'products' table.
- */
+// 2. GET All Products
+// This is the new endpoint your React app will call to get product data
 app.get('/api/products', async (req, res) => {
+  let client;
   try {
-    // TODO: When your DB is ready, uncomment this and create the 'products' table
-    // const result = await pool.query('SELECT * FROM products');
-    // res.json(result.rows);
-
-    // For now, send back mock data
-    res.json([
-      { id: 1, name: 'Mock Product 1', price: 19.99, image_url: 'https://placehold.co/600x400/eeeeee/333333?text=Product+1' },
-      { id: 2, name: 'Mock Product 2', price: 29.99, image_url: 'https://placehold.co/600x400/eeeeee/333333?text=Product+2' },
-      { id: 3, name: 'Mock Product 3', price: 39.99, image_url: 'https://placehold.co/600x400/eeeeee/333333?text=Product+3' },
-    ]);
-
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).json({ error: 'Failed to fetch products.' });
+    client = await pool.connect();
+    // Fetches all products, ordering by the newest ones first
+    const result = await client.query('SELECT * FROM products ORDER BY created_at DESC');
+    client.release();
+    res.json(result.rows); // Send the array of products back as JSON
+  } catch (err) {
+    if (client) client.release();
+    console.error('Error fetching products:', err);
+    res.status(500).json({ message: 'Failed to fetch products', error: err.message });
   }
 });
 
-// --- Start the Server ---
-app.listen(PORT, () => {
-  console.log(`Backend server is running on http://localhost:${PORT}`);
-});
+// Add more routes here as we build them...
+// app.get('/api/products/:id', ...)
+// app.post('/api/orders', ...)
+// app.get('/api/admin/orders', ...)
+
+
+// --- Server Startup ---
+const startServer = async () => {
+  const dbReady = await testDbConnection();
+  
+  if (!dbReady) {
+    console.error('Shutting down server due to database connection failure.');
+    process.exit(1); // Exit the process with an error code if DB connection fails
+  }
+  
+  app.listen(port, () => {
+    console.log(`Backend server is running on http://localhost:${port}`);
+  });
+};
+
+startServer();
