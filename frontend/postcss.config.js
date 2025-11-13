@@ -3,7 +3,7 @@ import autoprefixer from 'autoprefixer';
 
 export default {
   plugins: [
-    tailwindcss(), // <-- This () is the fix
-    autoprefixer(), // <-- This () is the fix
+    tailwindcss(), // Call it as a function
+    autoprefixer(), // Call it as a function
   ],
 };

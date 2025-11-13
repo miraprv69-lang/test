@@ -5,40 +5,47 @@
 
 /* 2. All custom styles, including @import, go inside @layer. */
 @layer base {
+  
   /* 3. We moved the font @import here. */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
+  
   html {
-    /* Use the Inter font family */
+    /* 4. Use the Inter font family */
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* This is the fix. We are using standard CSS
-    instead of @apply to avoid the build error.
-  */
+  /*
+   * 5. THIS IS THE FINAL FIX.
+   * We are using the *actual color codes* from your tailwind.config.js
+   * instead of the broken theme() function.
+   */
   body {
-    background-color: #ffffff; /* This is 'bg-white' */
+    background-color: #FFFFFF; /* This was 'colors.canvas' */
+    color: #111827;        /* This was 'colors.text-primary' */
   }
-
+  
+  /* Apply dark mode colors when the 'dark' class is present */
   .dark body {
-    background-color: #111827; /* This is 'dark:bg-gray-900' */
+    background-color: #111827; /* Dark background */
+    color: #F9FAFB;        /* Light text */
   }
 
-  /* Custom scrollbar (using standard CSS) */
+  /* Custom scrollbar (optional but matches the clean look) */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #D1D5DB; /* 'bg-gray-300' */
-    border-radius: 9999px; /* 'rounded-full' */
+    /* Use simple gray values that work */
+    background-color: #D1D5DB; /* gray-300 */
+    border-radius: 9999px;
   }
   .dark ::-webkit-scrollbar-thumb {
-    background-color: #374151; /* 'dark:bg-gray-700' */
+     background-color: #4B5563; /* gray-600 */
   }
   ::-webkit-scrollbar-track {
-    background-color: transparent; /* 'bg-transparent' */
+    background-color: transparent;
   }
 }
