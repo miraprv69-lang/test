@@ -1,9 +1,7 @@
+// frontend/src/components/Sidebar.jsx
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-//
-// THIS IMPORT WAS MISSING. IT INCLUDES BOX, VSTACK, ETC.
-//
-import { Box, VStack, Heading, Link, Text } from '@chakra-ui/react';
+import { Heading, Link, Text, Box, VStack } from '@chakra-ui/react'; // <-- CORRECT
 import {
   RiHome2Line,
   RiShoppingCartLine,
@@ -16,7 +14,6 @@ import {
   RiArrowGoBackLine,
 } from 'react-icons/ri';
 
-// Helper component for navigation links
 const NavItem = ({ icon, children, to, ...rest }) => {
   return (
     <Link
@@ -47,7 +44,6 @@ const NavItem = ({ icon, children, to, ...rest }) => {
   );
 };
 
-// The main Sidebar component
 const Sidebar = ({ ...rest }) => {
   return (
     <Box
@@ -60,7 +56,6 @@ const Sidebar = ({ ...rest }) => {
       right="0"
       {...rest}
     >
-      {/* Logo Area */}
       <VStack h="20" alignItems="flex-start" justify="center" mx="8">
         <Heading size="md" color="blue.600">
           بوكس ستور
@@ -68,7 +63,6 @@ const Sidebar = ({ ...rest }) => {
         <Text fontSize="sm">متجر بوكسي</Text>
       </VStack>
 
-      {/* Navigation Links */}
       <VStack as="nav" spacing={1} align="stretch" mt={5}>
         <NavItem icon={RiHome2Line} to="/dashboard/home">
           صفحة الرئيسية
@@ -82,18 +76,21 @@ const Sidebar = ({ ...rest }) => {
         <NavItem icon={RiShoppingCartLine} to="/dashboard/orders">
           الطلبات
         </NavItem>
-        <NavItem icon={RiGroupLine} to="#">
+        <NavItem icon={RiGroupLine} to="/dashboard/customers">
           الزبائن
         </NavItem>
-        <NavItem icon={RiCoupon3Line} to="#">
+        <NavItem icon={RiCoupon3Line} to="/dashboard/coupons">
           كوبونات الخصم
         </NavItem>
-        <NavItem icon={RiFileList2Line} to="#">
+        <NavItem icon={RiFileList2Line} to="/dashboard/banners">
           ادارة البنرات
         </NavItem>
-        <NavItem icon={RiSettings3Line} to="#">
+        
+        {/* This is the new link for Settings */}
+        <NavItem icon={RiSettings3Line} to="/dashboard/settings">
           اعدادات المتجر
         </NavItem>
+        
         <NavItem icon={RiArrowGoBackLine} to="#">
           أنتقل الى المتجر
         </NavItem>
