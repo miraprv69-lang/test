@@ -1,0 +1,9 @@
+This tells Git to ignore these files in the /backend folder
+
+Node.js dependencies
+
+node_modules
+
+Environment variables file (contains secrets!)
+
+.env
