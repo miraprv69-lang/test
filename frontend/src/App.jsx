@@ -1,73 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import Header from './components/Header.jsx';
-import Footer from './components/Footer.jsx';
-import CustomerStorePage from './pages/CustomerStorePage.jsx';
-import SaasLandingPage from './pages/SaaSLandingPage.jsx';
-import DashboardPage from './pages/DashboardPage.jsx';
+// frontend/src/App.jsx
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Page transition variants
-const pageVariants = {
-  initial: { opacity: 0, filter: 'blur(4px)', y: 20 },
-  in: { opacity: 1, filter: 'blur(0px)', y: 0 },
-  out: { opacity: 0, filter: 'blur(4px)', y: -20 },
-};
+// Import all page components with the .jsx extension
+import DashboardLayout from './pages/DashboardLayout.jsx';
+import MainDashboard from './pages/MainDashboard.jsx';
+import Products from './pages/Products.jsx';
+import Categories from './pages/Categories.jsx';
+import Orders from './pages/Orders.jsx';
+import AddProduct from './pages/AddProduct.jsx'; // <-- 1. Import AddProduct
 
-const pageTransition = {
-  type: 'tween',
-  ease: 'anticipate',
-  duration: 0.4,
-};
-
-export default function App() {
-  const [page, setPage] = useState('landing');
-  const [dir, setDir] = useState('rtl');
-  const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark as per your screenshots
-
-  useEffect(() => {
-    document.documentElement.dir = dir;
-    document.documentElement.lang = dir === 'rtl' ? 'ar' : 'en';
-  }, [dir]);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
-
-  const renderPage = () => {
-    let PageComponent;
-    switch (page) {
-      case 'landing': PageComponent = SaasLandingPage; break;
-      case 'store': PageComponent = CustomerStorePage; break;
-      case 'dashboard': PageComponent = DashboardPage; break;
-      default: PageComponent = SaasLandingPage;
-    }
-    return <PageComponent setPage={setPage} dir={dir} isDarkMode={isDarkMode} />;
-  };
-
+function App() {
   return (
-    <div className={`flex flex-col min-h-screen ${dir} bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-200`}>
-      <Header
-        dir={dir}
-        setDir={setDir}
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-        setPage={setPage}
-      />
-      <main className="flex-grow">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={page}
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            {renderPage()}
-          </motion.div>
-        </AnimatePresence>
-      </main>
-      <Footer dir={dir} />
-    </div>
+    <Routes>
+      {/* All dashboard routes live under here */}
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        {/* Child routes that render inside DashboardLayout */}
+        <Route index element={<Navigate to="home" replace />} />
+        <Route path="home" element={<MainDashboard />} />
+        
+        {/* Product Routes */}
+        <Route path="products" element={<Products />} />
+        <Route path="products/add" element={<AddProduct />} /> {/* <-- 2. Add new route */}
+        
+        {/* Categories Route */}
+        <Route path="categories" element={<Categories />} />
+        
+        {/* Orders Route */}
+        <Route path="orders" element={<Orders />} />
+      </Route>
+
+      {/* Redirect the user from "/" to "/dashboard" */}
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
   );
 }
+
+export default App;
