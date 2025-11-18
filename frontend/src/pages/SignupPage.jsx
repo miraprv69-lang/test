@@ -1,76 +1,65 @@
-// frontend/src/pages/SignupPage.jsx
-import React from 'react';
-import { Heading, Text, Button } from '@chakra-ui/react';
-import { Box, VStack, HStack, Divider } from '@chakra-ui/layout';
-import { FormControl, FormLabel } from '@chakra-ui/form-control';
-import { Input } from '@chakra-ui/input';
-import { Link as RouterLink } from 'react-router-dom';
-import { RiGoogleFill, RiFacebookFill } from 'react-icons/ri';
+import { Link } from "react-router-dom";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
 
-const SignupPage = () => {
+export default function SignupPage() {
   return (
-    <Box
-      w={{ base: '90%', md: '400px' }}
-      bg="white"
-      p={8}
-      borderRadius="lg"
-      shadow="sm"
-    >
-      <VStack spacing={6}>
-        <VStack align="center">
-          <Heading size="lg">أهلاً و سهلاً</Heading>
-          <Text color="gray.500">
-            اسهل و اسرع متجر الكتروني تفاعلي في العراق
-          </Text>
-        </VStack>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      
+      <div className="w-full max-w-md bg-white shadow-card rounded-2xl p-8">
 
-        <FormControl>
-          <FormLabel>البريد الألكتروني</FormLabel>
-          <Input type="email" placeholder="example@gmail.com" />
-        </FormControl>
+        <h1 className="text-2xl font-bold text-center mb-2">
+          إنشاء حساب جديد
+        </h1>
 
-        <FormControl>
-          <FormLabel>كلمة سر جديدة</FormLabel>
-          <Input type="password" placeholder="********" />
-        </FormControl>
+        <p className="text-gray-600 text-center mb-8">
+          سجّل الآن وابدأ باستخدام منصتنا بسهولة
+        </p>
 
-        {/* This button now links to the verify page */}
-        <Button
-          as={RouterLink}
-          to="/verify"
-          colorScheme="blue"
-          w="full"
-        >
-          أنشاء حساب
-        </Button>
+        {/* FORM */}
+        <form className="space-y-6">
 
-        <Button as={RouterLink} to="/login" w="full" variant="ghost">
-          لدي حساب بالفعل
-        </Button>
+          {/* Full Name */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium">الاسم الكامل</label>
+            <Input type="text" placeholder="اسمك الكامل" />
+          </div>
 
-        <HStack w="full" align="center">
-          <Divider />
-          <Text fontSize="sm" color="gray.500" whiteSpace="nowrap">
-            أو يمكنك استخدام
-          </Text>
-          <Divider />
-        </HStack>
+          {/* Email */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium">البريد الإلكتروني</label>
+            <Input type="email" placeholder="example@email.com" />
+          </div>
 
-        <HStack w="full" spacing={4}>
-          <Button w="full" variant="outline" leftIcon={<RiGoogleFill />}>
-            Google
+          {/* Phone */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium">رقم الهاتف</label>
+            <Input type="text" placeholder="0770xxxxxxx" />
+          </div>
+
+          {/* Password */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium">كلمة المرور</label>
+            <Input type="password" placeholder="••••••••" />
+          </div>
+
+          {/* Signup Button */}
+          <Button className="w-full py-3 text-lg">
+            إنشاء حساب
           </Button>
-          <Button w="full" variant="outline" leftIcon={<RiFacebookFill />}>
-            Facebook
-          </Button>
-        </HStack>
 
-        <Text fontSize="xs" color="gray.500">
-          مقدم من شركة داخل الصندوق
-        </Text>
-      </VStack>
-    </Box>
+        </form>
+
+        {/* Login Link */}
+        <p className="text-center text-sm text-gray-600 mt-6">
+          لديك حساب بالفعل؟{" "}
+          <Link to="/login" className="text-primary font-medium hover:underline">
+            تسجيل الدخول
+          </Link>
+        </p>
+
+      </div>
+
+    </div>
   );
-};
-
-export default SignupPage;
+}

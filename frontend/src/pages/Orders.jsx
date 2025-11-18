@@ -1,127 +1,94 @@
-// frontend/src/pages/Orders.jsx
-import React, { useState } from 'react';
-import { Heading, Button, useDisclosure } from '@chakra-ui/react';
-import { Box, Flex } from '@chakra-ui/layout';
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer, // 1. Import TableContainer
-} from '@chakra-ui/table';
-import { Tag } from '@chakra-ui/tag';
-import OrderDetailsModal from '../components/OrderDetailsModal';
+import Table from "../components/ui/Table";
+import Button from "../components/ui/Button";
 
-const getStatusColorScheme = (status) => {
-  switch (status) {
-    case 'واصل':
-      return 'green';
-    case 'راجع':
-      return 'red';
-    case 'قيد المعالجة':
-      return 'yellow';
-    default:
-      return 'gray';
-  }
-};
-
-const ordersData = [
-  {
-    id: 1,
-    name: 'محمد علي حسن',
-    total: '27,000',
-    products: 12,
-    status: 'واصل',
-    lastUpdate: '2023-10-02',
-  },
-  {
-    id: 2,
-    name: 'سارة عليها',
-    total: '227,000',
-    products: 23,
-    status: 'راجع',
-    lastUpdate: '2023-10-02',
-  },
-  {
-    id: 3,
-    name: 'محمد خالد',
-    total: '247,000',
-    products: 44,
-    status: 'قيد المعالجة',
-    lastUpdate: '2023-10-02',
-  },
-];
-
-const Orders = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const handleOpenModal = (order) => {
-    setSelectedOrder(order);
-    onOpen();
-  };
-
+export default function Orders() {
   return (
-    <>
-      <Box>
-        <Flex justify="space-between" align="center" mb="8">
-          <Heading size="lg">الطلبات</Heading>
-        </Flex>
+    <div className="w-full">
 
-        {/* 2. Use TableContainer */}
-        <TableContainer bg="white" borderRadius="lg" shadow="sm">
-          <Table variant="simple">
-            <TableCaption>قائمة بجميع الطلبات</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>#</Th>
-                <Th>الأسم</Th>
-                <Th>المجموع</Th>
-                <Th>المنتجات</Th>
-                <Th>الحالة</Th>
-                <Th>اخر تحديث</Th>
-                <Th>خيارات</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {ordersData.map((order) => (
-                <Tr key={order.id}>
-                  <Td>{order.id}</Td>
-                  <Td>{order.name}</Td>
-                  <Td>{order.total}</Td>
-                  <Td>{order.products}</Td>
-                  <Td>
-                    <Tag colorScheme={getStatusColorScheme(order.status)}>
-                      {order.status}
-                    </Tag>
-                  </Td>
-                  <Td>{order.lastUpdate}</Td>
-                  <Td>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleOpenModal(order)}
-                    >
-                      ...
-                    </Button>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer> {/* 3. Close TableContainer */}
-      </Box>
+      {/* TITLE */}
+      <h1 className="text-2xl font-bold mb-6">الطلبات</h1>
 
-      <OrderDetailsModal
-        isOpen={isOpen}
-        onClose={onClose}
-        order={selectedOrder}
-      />
-    </>
+      {/* FILTERS + SEARCH */}
+      <div className="bg-white shadow-card rounded-xl p-6 mb-8">
+
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+
+          {/* Search */}
+          <input
+            placeholder="بحث عن طلب..."
+            className="w-full md:w-1/3 bg-gray-100 px-4 py-3 rounded-xl outline-none"
+          />
+
+          {/* Filters */}
+          <div className="flex gap-4">
+
+            <select className="bg-gray-100 px-4 py-3 rounded-xl text-sm outline-none">
+              <option>الحالة</option>
+              <option>مكتمل</option>
+              <option>قيد المعالجة</option>
+              <option>ملغي</option>
+            </select>
+
+            <select className="bg-gray-100 px-4 py-3 rounded-xl text-sm outline-none">
+              <option>التاريخ</option>
+              <option>آخر 7 أيام</option>
+              <option>هذا الشهر</option>
+              <option>هذا العام</option>
+            </select>
+
+          </div>
+
+        </div>
+      </div>
+
+      {/* ORDERS TABLE */}
+      <div className="bg-white shadow-card rounded-xl p-6">
+        <Table
+          headers={[
+            "رقم الطلب",
+            "العميل",
+            "المبلغ",
+            "الحالة",
+            "التاريخ",
+            "الإجراءات",
+          ]}
+          data={[
+            [
+              "#1024",
+              "أحمد علي",
+              "35,000 د.ع",
+              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-xl text-xs">
+                مكتمل
+              </span>,
+              "2024-01-12",
+              <button className="text-primary underline">عرض</button>,
+            ],
+
+            [
+              "#1022",
+              "محمد كريم",
+              "12,500 د.ع",
+              <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-xl text-xs">
+                قيد المعالجة
+              </span>,
+              "2024-01-10",
+              <button className="text-primary underline">عرض</button>,
+            ],
+
+            [
+              "#1019",
+              "سارة يوسف",
+              "8,000 د.ع",
+              <span className="px-3 py-1 bg-red-100 text-red-700 rounded-xl text-xs">
+                ملغي
+              </span>,
+              "2024-01-09",
+              <button className="text-primary underline">عرض</button>,
+            ],
+          ]}
+        />
+      </div>
+
+    </div>
   );
-};
-
-export default Orders;
+}

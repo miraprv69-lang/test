@@ -1,85 +1,52 @@
-// frontend/src/pages/Categories.jsx
-import React from 'react';
-import { Heading, Button, useDisclosure } from '@chakra-ui/react';
-import { Box, Flex } from '@chakra-ui/layout';
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer, // 1. Import TableContainer
-} from '@chakra-ui/table';
-import { RiAddLine } from 'react-icons/ri';
-import AddCategoryModal from '../components/AddCategoryModal';
+import Button from "../components/ui/Button";
+import Table from "../components/ui/Table";
 
-const categoriesData = [
-  {
-    id: 1,
-    name: 'اجهزة ذكية',
-    productsCount: 123,
-    orders: 1234,
-    created: '2023-10-02',
-  },
-  {
-    id: 2,
-    name: 'اجهزة ذكية',
-    productsCount: 22,
-    orders: 557,
-    created: '2023-10-02',
-  },
-];
-
-const Categories = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+export default function Categories() {
   return (
-    <>
-      <Box>
-        <Flex justify="space-between" align="center" mb="8">
-          <Heading size="lg">الفئات</Heading>
-          <Button colorScheme="blue" leftIcon={<RiAddLine />} onClick={onOpen}>
-            أضافة فئة جديدة
-          </Button>
-        </Flex>
+    <div className="w-full">
 
-        {/* 2. Use TableContainer */}
-        <TableContainer bg="white" borderRadius="lg" shadow="sm">
-          <Table variant="simple">
-            <TableCaption>قائمة بجميع فئات المنتجات</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>الأسم</Th>
-                <Th>عدد المنتجات</Th>
-                <Th>الطلبات</Th>
-                <Th>انشأ في</Th>
-                <Th>خيارات</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {categoriesData.map((category) => (
-                <Tr key={category.id}>
-                  <Td>{category.name}</Td>
-                  <Td>{category.productsCount}</Td>
-                  <Td>{category.orders}</Td>
-                  <Td>{category.created}</Td>
-                  <Td>
-                    <Button size="sm" variant="ghost">
-                      ...
-                    </Button>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer> {/* 3. Close TableContainer */}
-      </Box>
+      {/* TITLE + ADD BUTTON */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">الأقسام</h1>
 
-      <AddCategoryModal isOpen={isOpen} onClose={onClose} />
-    </>
+        <Button className="px-6 py-3 rounded-xl">
+          + إضافة قسم
+        </Button>
+      </div>
+
+      {/* CATEGORIES TABLE */}
+      <div className="bg-white shadow-card rounded-xl p-6">
+
+        <Table
+          headers={[
+            "اسم القسم",
+            "عدد المنتجات",
+            "الحالة",
+            "الإجراءات",
+          ]}
+          data={[
+            [
+              "الهواتف",
+              "24 منتج",
+              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-xl text-xs">
+                فعال
+              </span>,
+              <button className="text-primary underline">تعديل</button>,
+            ],
+
+            [
+              "الإكسسوارات",
+              "10 منتجات",
+              <span className="px-3 py-1 bg-red-100 text-red-700 rounded-xl text-xs">
+                غير فعال
+              </span>,
+              <button className="text-primary underline">تعديل</button>,
+            ],
+          ]}
+        />
+
+      </div>
+
+    </div>
   );
-};
-
-export default Categories;
+}

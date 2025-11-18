@@ -1,102 +1,57 @@
-// frontend/src/components/Sidebar.jsx
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Heading, Link, Text, Box, VStack } from '@chakra-ui/react'; // <-- CORRECT
+import { NavLink } from "react-router-dom";
 import {
-  RiHome2Line,
-  RiShoppingCartLine,
-  RiLayoutGridLine,
-  RiFileList2Line,
-  RiSettings3Line,
-  RiGroupLine,
-  RiCoupon3Line,
-  RiFolderLine,
-  RiArrowGoBackLine,
-} from 'react-icons/ri';
+  FiHome,
+  FiBox,
+  FiLayers,
+  FiShoppingCart,
+  FiUsers,
+  FiTag,
+  FiImage,
+  FiStar,
+  FiSettings
+} from "react-icons/fi";
 
-const NavItem = ({ icon, children, to, ...rest }) => {
+export default function Sidebar() {
+  const links = [
+    { label: "الرئيسية", path: "/dashboard", icon: <FiHome /> },
+    { label: "المنتجات", path: "/dashboard/products", icon: <FiBox /> },
+    { label: "الأقسام", path: "/dashboard/categories", icon: <FiLayers /> },
+    { label: "الطلبات", path: "/dashboard/orders", icon: <FiShoppingCart /> },
+    { label: "العملاء", path: "/dashboard/customers", icon: <FiUsers /> },
+    { label: "الكوبونات", path: "/dashboard/coupons", icon: <FiTag /> },
+    { label: "البنرات", path: "/dashboard/banners", icon: <FiImage /> },
+    { label: "التقييمات", path: "/dashboard/reviews", icon: <FiStar /> },
+    { label: "الإعدادات", path: "/dashboard/settings", icon: <FiSettings /> },
+  ];
+
   return (
-    <Link
-      as={RouterLink}
-      to={to}
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
-      w="full"
-    >
-      <Box
-        display="flex"
-        alignItems="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'blue.500',
-          color: 'white',
-        }}
-        {...rest}
-      >
-        {icon && <Box as={icon} ml="4" fontSize="16" />}
-        {children}
-      </Box>
-    </Link>
+    <aside className="w-64 min-h-screen bg-white shadow-card px-4 py-6">
+      
+      {/* Logo */}
+      <h1 className="text-2xl font-bold text-primary mb-10 text-center">
+        BoxSmart
+      </h1>
+
+      {/* Nav */}
+      <nav className="space-y-2">
+        {links.map((item, i) => (
+          <NavLink
+            key={i}
+            to={item.path}
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-3 rounded-xl text-sm font-medium transition ${
+                isActive
+                  ? "bg-primary text-white shadow"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`
+            }
+          >
+            <span className="text-lg">{item.icon}</span>
+            {item.label}
+          </NavLink>
+        ))}
+      </nav>
+
+    </aside>
   );
-};
-
-const Sidebar = ({ ...rest }) => {
-  return (
-    <Box
-      bg="white"
-      borderStart="1px"
-      borderColor="gray.200"
-      w={{ base: 'full', md: 60 }}
-      pos="fixed"
-      h="full"
-      right="0"
-      {...rest}
-    >
-      <VStack h="20" alignItems="flex-start" justify="center" mx="8">
-        <Heading size="md" color="blue.600">
-          بوكس ستور
-        </Heading>
-        <Text fontSize="sm">متجر بوكسي</Text>
-      </VStack>
-
-      <VStack as="nav" spacing={1} align="stretch" mt={5}>
-        <NavItem icon={RiHome2Line} to="/dashboard/home">
-          صفحة الرئيسية
-        </NavItem>
-        <NavItem icon={RiLayoutGridLine} to="/dashboard/products">
-          المنتجات
-        </NavItem>
-        <NavItem icon={RiFolderLine} to="/dashboard/categories">
-          ادارة الفئات
-        </NavItem>
-        <NavItem icon={RiShoppingCartLine} to="/dashboard/orders">
-          الطلبات
-        </NavItem>
-        <NavItem icon={RiGroupLine} to="/dashboard/customers">
-          الزبائن
-        </NavItem>
-        <NavItem icon={RiCoupon3Line} to="/dashboard/coupons">
-          كوبونات الخصم
-        </NavItem>
-        <NavItem icon={RiFileList2Line} to="/dashboard/banners">
-          ادارة البنرات
-        </NavItem>
-        
-        {/* This is the new link for Settings */}
-        <NavItem icon={RiSettings3Line} to="/dashboard/settings">
-          اعدادات المتجر
-        </NavItem>
-        
-        <NavItem icon={RiArrowGoBackLine} to="#">
-          أنتقل الى المتجر
-        </NavItem>
-      </VStack>
-    </Box>
-  );
-};
-
-export default Sidebar;
+}

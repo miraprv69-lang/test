@@ -1,109 +1,87 @@
-// frontend/src/pages/Products.jsx
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Heading, Button } from '@chakra-ui/react';
-import { Box, Flex } from '@chakra-ui/layout';
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer, // 1. Import TableContainer
-} from '@chakra-ui/table';
-import { Tag } from '@chakra-ui/tag';
-import { RiAddLine } from 'react-icons/ri';
+import Button from "../components/ui/Button";
+import Table from "../components/ui/Table";
 
-const productsData = [
-  {
-    id: 1,
-    name: 'جهاز ايفون 11',
-    category: 'اجهزة ذكية',
-    price: '2500',
-    discountPrice: 'لا يوجد',
-    lastUpdate: '2023-10-02',
-  },
-  {
-    id: 2,
-    name: 'جهاز ايفون 13',
-    category: 'اجهزة ذكية',
-    price: '66,000',
-    discountPrice: '23,000',
-    discountPercent: '-50%',
-    lastUpdate: '2023-10-02',
-  },
-  {
-    id: 3,
-    name: 'جهاز ايفون 12',
-    category: 'اجهزة ذكية',
-    price: '2500',
-    discountPrice: 'لا يوجد',
-    lastUpdate: '2023-10-02',
-  },
-];
-
-const Products = () => {
-  const navigate = useNavigate();
-  const handleAddProductClick = () => {
-    navigate('/dashboard/products/add');
-  };
-
+export default function Products() {
   return (
-    <Box>
-      <Flex justify="space-between" align="center" mb="8">
-        <Heading size="lg">المنتجات</Heading>
-        <Button
-          colorScheme="blue"
-          leftIcon={<RiAddLine />}
-          onClick={handleAddProductClick}
-        >
-          أضافة منتج
+    <div className="w-full">
+
+      {/* TITLE + ADD BUTTON */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">المنتجات</h1>
+
+        <Button className="px-6 py-3 rounded-xl">
+          + إضافة منتج
         </Button>
-      </Flex>
+      </div>
 
-      {/* 2. Use TableContainer (NOT Table.Container) */}
-      <TableContainer bg="white" borderRadius="lg" shadow="sm">
-        <Table variant="simple">
-          <TableCaption>قائمة بجميع المنتجات في متجرك</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>الأسم</Th>
-              <Th>السعر</Th>
-              <Th>الفئة</Th>
-              <Th>بعد الخصم</Th>
-              <Th>اخر تحديث</Th>
-              <Th>خيارات</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {productsData.map((product) => (
-              <Tr key={product.id}>
-                <Td>{product.name}</Td>
-                <Td>{product.price}</Td>
-                <Td>{product.category}</Td>
-                <Td>
-                  {product.discountPercent ? (
-                    <Tag colorScheme="red" me="2">
-                      {product.discountPercent}
-                    </Tag>
-                  ) : null}
-                  {product.discountPrice}
-                </Td>
-                <Td>{product.lastUpdate}</Td>
-                <Td>
-                  <Button size="sm" variant="ghost">
-                    ...
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer> {/* 3. Close TableContainer */}
-    </Box>
+      {/* SEARCH + FILTERS */}
+      <div className="bg-white shadow-card rounded-xl p-6 mb-8">
+        
+        <div className="flex flex-col md:flex-row gap-4 justify-between">
+
+          {/* Search */}
+          <input
+            className="w-full md:w-1/3 px-4 py-3 bg-gray-100 rounded-xl outline-none"
+            placeholder="بحث عن منتج..."
+          />
+
+          {/* Filters */}
+          <div className="flex gap-4">
+            <select className="px-4 py-3 bg-gray-100 rounded-xl outline-none text-sm">
+              <option>التصنيف</option>
+            </select>
+
+            <select className="px-4 py-3 bg-gray-100 rounded-xl outline-none text-sm">
+              <option>الحالة</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      {/* PRODUCTS TABLE */}
+      <div className="bg-white shadow-card rounded-xl p-6">
+        <Table
+          headers={[
+            "المنتج",
+            "السعر",
+            "التصنيف",
+            "الحالة",
+            "المخزون",
+            "الإجراءات",
+          ]}
+          data={[
+            [
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gray-200 rounded-xl"></div>
+                <span>هاتف آيفون 14</span>
+              </div>,
+              "950,000 د.ع",
+              "إلكترونيات",
+              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-xl text-xs">
+                متوفر
+              </span>,
+              "15",
+              <button className="text-primary underline">تعديل</button>,
+            ],
+
+            [
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gray-200 rounded-xl"></div>
+                <span>ساعة سامسونغ</span>
+              </div>,
+              "120,000 د.ع",
+              "إكسسوارات",
+              <span className="px-3 py-1 bg-red-100 text-red-700 rounded-xl text-xs">
+                غير متوفر
+              </span>,
+              "0",
+              <button className="text-primary underline">تعديل</button>,
+            ],
+          ]}
+        />
+      </div>
+
+    </div>
   );
-};
-
-export default Products;
+}

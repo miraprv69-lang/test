@@ -1,21 +1,23 @@
-// frontend/src/pages/StoreLayout.jsx
+// src/pages/StoreLayout.jsx
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box } from '@chakra-ui/layout';
 import StoreHeader from '../components/StoreHeader.jsx';
-// We'll use the same PublicFooter for the store
-import PublicFooter from '../components/PublicFooter.jsx'; 
+import PublicFooter from '../components/PublicFooter.jsx';
 
 const StoreLayout = () => {
   return (
-    <Box bg="gray.50">
+    <div
+      className="min-h-screen bg-canvas text-text-primary flex flex-col"
+      dir="rtl"
+    >
       <StoreHeader />
-      {/* Outlet will render the store's pages */}
-      <Box minH="70vh">
+
+      <main className="flex-1">
         <Outlet />
-      </Box>
+      </main>
+
       <PublicFooter />
-    </Box>
+    </div>
   );
 };
 

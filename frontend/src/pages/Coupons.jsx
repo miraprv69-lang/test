@@ -1,100 +1,70 @@
-// frontend/src/pages/Coupons.jsx
-import React from 'react';
-import { Heading, Button, useDisclosure } from '@chakra-ui/react';
-import { Box, Flex } from '@chakra-ui/layout';
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/table';
-import { Tag } from '@chakra-ui/tag';
-import { RiAddLine } from 'react-icons/ri';
-import AddCouponModal from '../components/AddCouponModal.jsx';
+import Button from "../components/ui/Button";
+import Table from "../components/ui/Table";
 
-// Placeholder data from Page 61
-const couponsData = [
-  {
-    id: 1,
-    name: 'خصم خاص للمستخدمين الجدد',
-    code: 'NEW',
-    value: '1000 دينار',
-    used: '124 مرة',
-    created: '2023-10-02',
-    expires: '3 ايام',
-  },
-  {
-    id: 2,
-    name: 'خصم خاص للمستخدمين الجدد',
-    code: 'GG50',
-    value: '20%',
-    used: '124 مرة',
-    created: '2023-10-02',
-    expires: '5 ايام',
-  },
-  {
-    id: 3,
-    name: 'خصم خاص',
-    code: 'LOL10',
-    value: 'توصيل مجاني',
-    used: '124 مرة',
-    created: '2023-10-02',
-    expires: '7 ايام',
-  },
-];
-
-const Coupons = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+export default function Coupons() {
   return (
-    <>
-      <Box>
-        <Flex justify="space-between" align="center" mb="8">
-          <Heading size="lg">كوبونات الخصم</Heading>
-          <Button colorScheme="blue" leftIcon={<RiAddLine />} onClick={onOpen}>
-            أضافة خصم
-          </Button>
-        </Flex>
+    <div className="w-full">
 
-        <TableContainer bg="white" borderRadius="lg" shadow="sm">
-          <Table variant="simple">
-            <TableCaption>قائمة بجميع كوبونات الخصم</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>الأسم</Th>
-                <Th>رمز الخصم</Th>
-                <Th>قيمة الخصم</Th>
-                <Th>أستخدم</Th>
-                <Th>انشأ في</Th>
-                <Th>ينتهي</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {couponsData.map((coupon) => (
-                <Tr key={coupon.id}>
-                  <Td>{coupon.name}</Td>
-                  <Td>
-                    <Tag colorScheme="blue" size="lg">{coupon.code}</Tag>
-                  </Td>
-                  <Td>{coupon.value}</Td>
-                  <Td>{coupon.used}</Td>
-                  <Td>{coupon.created}</Td>
-                  <Td>{coupon.expires}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Box>
+      {/* TITLE + ADD BUTTON */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">الكوبونات</h1>
 
-      {/* Render the modal */}
-      <AddCouponModal isOpen={isOpen} onClose={onClose} />
-    </>
+        <Button className="px-6 py-3 rounded-xl">
+          + إضافة كوبون
+        </Button>
+      </div>
+
+      {/* COUPONS TABLE */}
+      <div className="bg-white shadow-card rounded-xl p-6">
+
+        <Table
+          headers={[
+            "اسم الكوبون",
+            "نوع الخصم",
+            "القيمة",
+            "تاريخ الانتهاء",
+            "الحالة",
+            "الإجراءات",
+          ]}
+          
+          data={[
+            [
+              "SUMMER2024",
+              "خصم نسبة",
+              "15%",
+              "2024-08-01",
+              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-xl text-xs">
+                فعال
+              </span>,
+              <button className="text-primary underline">تعديل</button>,
+            ],
+
+            [
+              "WELCOME10",
+              "خصم ثابت",
+              "10,000 د.ع",
+              "2024-06-15",
+              <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-xl text-xs">
+                منتهي قريباً
+              </span>,
+              <button className="text-primary underline">تعديل</button>,
+            ],
+
+            [
+              "BLACKFRIDAY",
+              "خصم نسبة",
+              "30%",
+              "2023-12-01",
+              <span className="px-3 py-1 bg-red-100 text-red-700 rounded-xl text-xs">
+                منتهي
+              </span>,
+              <button className="text-primary underline">تعديل</button>,
+            ],
+          ]}
+        />
+
+      </div>
+
+    </div>
   );
-};
-
-export default Coupons;
+}

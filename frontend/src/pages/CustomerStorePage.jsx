@@ -1,94 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import ProductCard from '../components/ProductCard';
-import { motion } from 'framer-motion';
+// src/pages/CustomerStorePage.jsx
+import React, { useEffect, useState } from 'react';
+import StoreProductCard from '../components/StoreProductCard.jsx';
 
-const CustomerStorePage = ({ dir }) => {
+const CustomerStorePage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [storeName, setStoreName] = useState('متجر Box Smart');
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const isRTL = dir === 'rtl';
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        // We use /api/products, and vite.config.js proxies this to our backend
-        const response = await fetch('/api/products');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
+    // TODO: fetch store + products data using params
+    // For now, fake loading:
+    setTimeout(() => {
+      setProducts([
+        { id: 1, name: 'منتج ١', price: '27,000 د.ع' },
+        { id: 2, name: 'منتج ٢', price: '35,000 د.ع' },
+        { id: 3, name: 'منتج ٣', price: '12,000 د.ع' },
+      ]);
+      setIsLoading(false);
+    }, 400);
   }, []);
-  
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="flex flex-col items-center gap-3 text-text-secondary">
+          <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+          <span className="text-sm font-medium">جارٍ تحميل منتجات المتجر...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" dir={dir}>
-      {/* Hero Section */}
-      <motion.div 
-        className="bg-gradient-to-r from-primary-600 to-blue-400 dark:from-primary-700 dark:to-blue-500 rounded-lg shadow-lg p-8 md:p-12 mb-12 flex items-center justify-between"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-            {isRTL ? 'أفضل التخفيضات' : 'BEST SALE'}
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1 text-right">
+          <h1 className="text-2xl font-black text-text-primary">
+            {storeName}
           </h1>
-          <p className="text-lg text-blue-100">
-            {isRTL ? 'أسرع متجر في العراق' : 'The fastest store in Iraq'}
+          <p className="text-sm text-text-secondary">
+            جميع المنتجات المعروضة متاحة للطلب الآن.
           </p>
         </div>
-        <motion.button 
-          className="bg-white text-primary-600 font-semibold py-2 px-6 rounded-lg shadow-md"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isRTL ? 'تسوق الآن' : 'Shop Now'}
-        </motion.button>
-      </motion.div>
+      </header>
 
-      {/* Products Grid */}
-      <h2 className="text-3xl font-bold text-text-primary dark:text-white mb-8">
-        {isRTL ? 'المنتجات المميزة' : 'Featured Products'}
-      </h2>
-
-      {loading && (
-        <div className="text-center text-text-secondary py-10">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4">{isRTL ? 'جاري التحميل...' : 'Loading...'}</p>
-        </div>
-      )}
-      {error && <p className="text-center text-red-500 py-10">{isRTL ? 'حدث خطأ' : 'An error occurred'}: {error}</p>}
-
-      {!loading && !error && (
-        <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {products.map((product, i) => (
-            <ProductCard key={product.id} product={product} dir={dir} index={i} />
-          ))}
-        </motion.div>
-      )}
+      <section>
+        {products.length === 0 ? (
+          <div className="bg-surface rounded-2xl border border-dashed border-gray-300 p-8 text-center text-text-secondary text-sm">
+            لا توجد منتجات متاحة في هذا المتجر حالياً.
+          </div>
+        ) : (
+          <div className="grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+            {products.map((p) => (
+              <StoreProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };

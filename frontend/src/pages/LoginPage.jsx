@@ -1,71 +1,56 @@
-// frontend/src/pages/LoginPage.jsx
-import React from 'react';
-import { Heading, Text, Button } from '@chakra-ui/react';
-// 1. Import Divider from @chakra-ui/layout
-import { Box, VStack, HStack, Divider } from '@chakra-ui/layout';
-import { FormControl, FormLabel } from '@chakra-ui/form-control';
-import { Input } from '@chakra-ui/input';
-import { Link as RouterLink } from 'react-router-dom';
-import { RiGoogleFill, RiFacebookFill } from 'react-icons/ri';
+import { Link } from "react-router-dom";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 
-const LoginPage = () => {
+export default function LoginPage() {
   return (
-    <Box
-      w={{ base: '90%', md: '400px' }}
-      bg="white"
-      p={8}
-      borderRadius="lg"
-      shadow="sm"
-    >
-      <VStack spacing={6}>
-        <VStack align="center">
-          <Heading size="lg">أهلاً و سهلاً</Heading>
-          <Text color="gray.500">
-            اسهل و اسرع متجر الكتروني تفاعلي في العراق
-          </Text>
-        </VStack>
+    <div className="min-h-screen flex items-center justify-center px-4">
 
-        <FormControl>
-          <FormLabel>البريد الألكتروني</FormLabel>
-          <Input type="email" placeholder="example@gmail.com" />
-        </FormControl>
+      <div className="w-full max-w-md bg-white shadow-card rounded-2xl p-8">
 
-        <FormControl>
-          <FormLabel>كلمة السر</FormLabel>
-          <Input type="password" placeholder="********" />
-        </FormControl>
-
-        <Button colorScheme="blue" w="full">
+        <h1 className="text-2xl font-bold text-center mb-2">
           تسجيل الدخول
-        </Button>
+        </h1>
 
-        <Button as={RouterLink} to="/signup" w="full" variant="ghost">
-          أنشاء حساب
-        </Button>
+        <p className="text-gray-600 text-center mb-8">
+          أهلاً بعودتك!
+        </p>
 
-        <HStack w="full" align="center">
-          <Divider />
-          <Text fontSize="sm" color="gray.500" whiteSpace="nowrap">
-            أو يمكنك استخدام
-          </Text>
-          <Divider />
-        </HStack>
+        {/* FORM */}
+        <form className="space-y-6">
 
-        <HStack w="full" spacing={4}>
-          <Button w="full" variant="outline" leftIcon={<RiGoogleFill />}>
-            Google
+          <div className="space-y-1">
+            <label className="text-sm font-medium">البريد الإلكتروني</label>
+            <Input type="email" placeholder="example@email.com" />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium">كلمة المرور</label>
+            <Input type="password" placeholder="••••••••" />
+          </div>
+
+          <div className="flex justify-between">
+            <Link className="text-sm text-primary hover:underline">
+              نسيت كلمة المرور؟
+            </Link>
+          </div>
+
+          <Button className="w-full py-3 text-lg">
+            تسجيل الدخول
           </Button>
-          <Button w="full" variant="outline" leftIcon={<RiFacebookFill />}>
-            Facebook
-          </Button>
-        </HStack>
 
-        <Text fontSize="xs" color="gray.500">
-          مقدم من شركة داخل الصندوق
-        </Text>
-      </VStack>
-    </Box>
+        </form>
+
+        {/* SIGNUP LINK */}
+        <p className="text-center text-sm text-gray-600 mt-6">
+          ليس لديك حساب؟{" "}
+          <Link className="text-primary font-medium" to="/signup">
+            إنشاء حساب جديد
+          </Link>
+        </p>
+
+      </div>
+
+    </div>
   );
-};
-
-export default LoginPage;
+}

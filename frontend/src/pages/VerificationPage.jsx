@@ -1,53 +1,42 @@
-// frontend/src/pages/VerificationPage.jsx
-import React from 'react';
-import { Heading, Text, Button } from '@chakra-ui/react';
-import { Box, VStack } from '@chakra-ui/layout';
-import { FormControl, FormLabel } from '@chakra-ui/form-control';
-import { Input } from '@chakra-ui/input';
-import { Link as RouterLink } from 'react-router-dom';
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { Link } from "react-router-dom";
 
-const VerificationPage = () => {
+export default function VerificationPage() {
   return (
-    <Box
-      w={{ base: '90%', md: '400px' }}
-      bg="white"
-      p={8}
-      borderRadius="lg"
-      shadow="sm"
-    >
-      <VStack spacing={6} align="flex-start">
-        <VStack align="flex-start" w="full">
-          <Heading size="lg">خطوة واحدة بعد....</Heading>
-          <Text color="gray.500">
-            {/* We'll make this email dynamic later */}
-            ارسلا رمز تحقق الى ايميلك sjdj**@gmail.com
-          </Text>
-        </VStack>
+    <div className="min-h-screen flex items-center justify-center px-4">
 
-        <FormControl>
-          <FormLabel>رمز التحقق</FormLabel>
-          <Input placeholder="123456" />
-        </FormControl>
+      <div className="w-full max-w-md bg-white shadow-card rounded-2xl p-8">
 
-        <Button
-          as={RouterLink}
-          to="/personal-info" // Navigate to the next step
-          colorScheme="blue"
-          w="full"
-        >
-          تحقق
+        <h1 className="text-2xl font-bold text-center mb-2">
+          رمز التفعيل
+        </h1>
+
+        <p className="text-gray-600 text-center mb-8">
+          لقد أرسلنا رمز التحقق إلى بريدك الإلكتروني
+        </p>
+
+        {/* OTP Inputs */}
+        <div className="flex gap-3 justify-center mb-8">
+          <Input maxLength={1} className="w-12 h-14 text-center text-xl" />
+          <Input maxLength={1} className="w-12 h-14 text-center text-xl" />
+          <Input maxLength={1} className="w-12 h-14 text-center text-xl" />
+          <Input maxLength={1} className="w-12 h-14 text-center text-xl" />
+        </div>
+
+        <Button className="w-full py-3 text-lg mb-4">
+          تأكيد
         </Button>
 
-        <Button as={RouterLink} to="/login" w="full" variant="ghost">
-          رجوع
-        </Button>
+        <p className="text-center text-gray-600 text-sm">
+          لم يصلك الرمز؟
+          <button className="text-primary font-medium ml-1 hover:underline">
+            إعادة الإرسال
+          </button>
+        </p>
 
-        <Text fontSize="xs" color="gray.500" w="full" textAlign="center">
-          مقدم من شركة داخل الصندوق
-        </Text>
-      </VStack>
-    </Box>
+      </div>
+
+    </div>
   );
-};
-
-export default VerificationPage;
+}

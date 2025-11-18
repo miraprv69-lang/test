@@ -1,85 +1,82 @@
-// frontend/src/pages/Banners.jsx
-import React from 'react';
-import { Heading, Button, useDisclosure, Image } from '@chakra-ui/react';
-import { Box, Flex } from '@chakra-ui/layout'; // Layout components
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/table';
-import { Tag } from '@chakra-ui/tag';
-import { RiAddLine } from 'react-icons/ri';
-import AddBannerModal from '../components/AddBannerModal.jsx';
+import { FiMoreVertical } from "react-icons/fi";
+import Button from "../components/ui/Button";
 
-const bannersData = [
-  {
-    id: 1,
-    name: 'جهاز ايفون 11',
-    actionType: 'رابط',
-    expires: '2 ايام',
-    lastUpdate: '2023-10-02',
-    img: 'https://picsum.photos/100/50',
-  },
-];
-
-const Banners = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+export default function Banners() {
   return (
-    <>
-      <Box>
-        <Flex justify="space-between" align="center" mb="8">
-          <Heading size="lg">ادارة البنرات</Heading>
-          <Button colorScheme="blue" leftIcon={<RiAddLine />} onClick={onOpen}>
-            أضافة بنر جديد
-          </Button>
-        </Flex>
-        <TableContainer bg="white" borderRadius="lg" shadow="sm">
-          <Table variant="simple">
-            <TableCaption>قائمة بجميع البنرات</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>الصورة</Th>
-                <Th>الأسم</Th>
-                <Th>الاجراء</Th>
-                <Th>تنتهي الصلاحية</Th>
-                <Th>اخر تحديث</Th>
-                <Th>خيارات</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {bannersData.map((banner) => (
-                <Tr key={banner.id}>
-                  <Td>
-                    <Image src={banner.img} alt={banner.name} boxSize="50px" objectFit="cover" />
-                  </Td>
-                  <Td>{banner.name}</Td>
-                  <Td>
-                    <Tag>{banner.actionType}</Tag>
-                  </Td>
-                  <Td>{banner.expires}</Td>
-                  <Td>{banner.lastUpdate}</Td>
-                  <Td>
-                    <Button size="sm" variant="ghost">
-                      ...
-                    </Button>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Box>
+    <div className="w-full">
 
-      {/* Render the modal */}
-      <AddBannerModal isOpen={isOpen} onClose={onClose} />
-    </>
+      {/* TITLE + ADD BUTTON */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">البنرات</h1>
+
+        <Button className="px-6 py-3 rounded-xl">
+          + إضافة بنر
+        </Button>
+      </div>
+
+      {/* BANNERS GRID */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        {/* Banner Card */}
+        <div className="bg-white shadow-card rounded-xl p-4">
+          
+          {/* Banner Image */}
+          <div className="w-full h-40 bg-gray-200 rounded-xl mb-4"></div>
+
+          {/* Info Row */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold">عنوان البنر</h3>
+              <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-xl mt-1 inline-block">
+                فعال
+              </span>
+            </div>
+
+            <button className="p-2 rounded-xl hover:bg-gray-100">
+              <FiMoreVertical className="text-xl text-gray-600" />
+            </button>
+          </div>
+
+        </div>
+
+        {/* Banner Card 2 */}
+        <div className="bg-white shadow-card rounded-xl p-4">
+          <div className="w-full h-40 bg-gray-200 rounded-xl mb-4"></div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold">عرض الصيف</h3>
+              <span className="text-xs px-3 py-1 bg-yellow-100 text-yellow-700 rounded-xl mt-1 inline-block">
+                غير فعال
+              </span>
+            </div>
+
+            <button className="p-2 rounded-xl hover:bg-gray-100">
+              <FiMoreVertical className="text-xl text-gray-600" />
+            </button>
+          </div>
+        </div>
+
+        {/* Banner Card 3 */}
+        <div className="bg-white shadow-card rounded-xl p-4">
+          <div className="w-full h-40 bg-gray-200 rounded-xl mb-4"></div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold">تخفيضات</h3>
+              <span className="text-xs px-3 py-1 bg-red-100 text-red-700 rounded-xl mt-1 inline-block">
+                منتهي
+              </span>
+            </div>
+
+            <button className="p-2 rounded-xl hover:bg-gray-100">
+              <FiMoreVertical className="text-xl text-gray-600" />
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
   );
-};
-
-export default Banners;
+}

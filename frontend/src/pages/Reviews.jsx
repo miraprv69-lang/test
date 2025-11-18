@@ -1,28 +1,27 @@
 import Table from "../components/ui/Table";
 
-export default function Customers() {
+export default function Reviews() {
   return (
     <div className="w-full">
 
-      {/* TITLE */}
-      <h1 className="text-2xl font-bold mb-6">العملاء</h1>
+      {/* PAGE TITLE */}
+      <h1 className="text-2xl font-bold mb-6">التقييمات</h1>
 
-      {/* TABLE */}
+      {/* REVIEWS TABLE */}
       <div className="bg-white shadow-card rounded-xl p-6">
 
         <Table
           headers={[
             "العميل",
-            "البريد الإلكتروني",
-            "رقم الهاتف",
-            "عدد الطلبات",
+            "المنتج",
+            "التقييم",
+            "المراجعة",
             "الحالة",
             "الإجراءات",
           ]}
 
           data={[
             [
-              // Customer name + avatar
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">
                   أ
@@ -30,12 +29,17 @@ export default function Customers() {
                 <span>أحمد علي</span>
               </div>,
 
-              "ahmed@example.com",
-              "0770 123 4567",
-              "12 طلب",
+              "هاتف آيفون 14",
+
+              // Stars
+              <div className="flex text-yellow-400 text-lg">
+                ★★★★☆
+              </div>,
+
+              "جودة ممتازة وسرعة في التوصيل!",
 
               <span className="px-3 py-1 bg-green-100 text-green-700 rounded-xl text-xs">
-                نشط
+                معتمد
               </span>,
 
               <button className="text-primary underline">عرض</button>,
@@ -49,12 +53,16 @@ export default function Customers() {
                 <span>سارة يوسف</span>
               </div>,
 
-              "sara@example.com",
-              "0771 998 2211",
-              "5 طلبات",
+              "سماعات سامسونغ",
+
+              <div className="flex text-yellow-400 text-lg">
+                ★★★☆☆
+              </div>,
+
+              "الصوت جيد لكن البطارية متوسطة",
 
               <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-xl text-xs">
-                جديد
+                قيد المراجعة
               </span>,
 
               <button className="text-primary underline">عرض</button>,
@@ -68,12 +76,16 @@ export default function Customers() {
                 <span>محمد كريم</span>
               </div>,
 
-              "mohammad@example.com",
-              "0750 222 3344",
-              "3 طلبات",
+              "باور بانك",
+
+              <div className="flex text-yellow-400 text-lg">
+                ★★☆☆☆
+              </div>,
+
+              "لم يعجبني، الشحن بطيء جداً",
 
               <span className="px-3 py-1 bg-red-100 text-red-700 rounded-xl text-xs">
-                غير نشط
+                مرفوض
               </span>,
 
               <button className="text-primary underline">عرض</button>,

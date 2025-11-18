@@ -1,44 +1,31 @@
-// frontend/src/components/StoreHeader.jsx
-import React from 'react';
-import { Heading, Button, Link, IconButton } from '@chakra-ui/react';
-import { Box, Flex, HStack, Spacer } from '@chakra-ui/layout';
-import { Link as RouterLink } from 'react-router-dom';
-import { RiShoppingCartLine } from 'react-icons/ri';
+import { FiBell, FiSearch } from "react-icons/fi";
 
-const StoreHeader = () => {
+export default function StoreHeader() {
   return (
-    <Box bg="white" shadow="sm" py={4} px={8} pos="sticky" top={0} zIndex={10}>
-      <Flex align="center">
-        {/* Logo */}
-        <HStack as={RouterLink} to="/store">
-          <Heading size="md" color="blue.600">
-            متجر بوكسي
-          </Heading>
-        </HStack>
+    <header className="w-full bg-white shadow-card p-4 rounded-xl flex items-center justify-between mb-6">
 
-        <Spacer />
-
-        {/* Navigation Links */}
-        <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
-          <Link as={RouterLink} to="/store">الرئيسية</Link>
-          <Link as={RouterLink} to="/store/products">المنتجات</Link>
-          <Link as={RouterLink} to="/store/categories">الفئات</Link>
-        </HStack>
-
-        <Spacer />
-
-        {/* This IconButton now links to the cart page */}
-        <IconButton
-          as={RouterLink}
-          to="/store/cart"
-          icon={<RiShoppingCartLine />}
-          variant="ghost"
-          aria-label="Cart"
-          fontSize="20px"
+      {/* Search */}
+      <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full w-72">
+        <FiSearch className="text-gray-500" />
+        <input
+          className="bg-transparent outline-none w-full text-sm"
+          placeholder="بحث..."
         />
-      </Flex>
-    </Box>
-  );
-};
+      </div>
 
-export default StoreHeader;
+      {/* Right side */}
+      <div className="flex items-center gap-4">
+
+        <button className="p-2 bg-gray-100 rounded-full">
+          <FiBell className="text-gray-600 text-lg" />
+        </button>
+
+        <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">
+          A
+        </div>
+
+      </div>
+
+    </header>
+  );
+}

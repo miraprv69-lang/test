@@ -1,68 +1,49 @@
-// frontend/src/pages/StoreHomePage.jsx
+// src/pages/StoreHomePage.jsx
 import React from 'react';
-import { Heading, Text, Button, Image } from '@chakra-ui/react';
-import { Box, Flex, VStack, SimpleGrid } from '@chakra-ui/layout';
 import StoreProductCard from '../components/StoreProductCard.jsx';
 
-// Placeholder data from Page 158
 const productsData = [
-  {
-    id: 1,
-    name: 'جهاز ايفون 15 برو ماكس',
-    price: '25,000 د.ع',
-    img: 'https://via.placeholder.com/300x300.png?text=iPhone+15', // Placeholder
-  },
-  {
-    id: 2,
-    name: 'جهاز ايفون 12 برو ماكس',
-    price: '63,000 د.ع',
-    oldPrice: '70,000 د.ع',
-    img: 'https://via.placeholder.com/300x300.png?text=iPhone+12', // Placeholder
-  },
-  {
-    id: 3,
-    name: 'جهاز ايفون 13 برو ماكس 512GB',
-    price: '28,000 د.ع',
-    img: 'https://via.placeholder.com/300x300.png?text=iPhone+13', // Placeholder
-  },
-  {
-    id: 4,
-    name: 'جهاز ايفون 11 برو جديد...',
-    price: '10,000 د.ع',
-    oldPrice: '10,000 د.ع',
-    img: 'https://via.placeholder.com/300x300.png?text=iPhone+11', // Placeholder
-  },
+  { id: 1, name: 'منتج ١', price: '27,000 د.ع' },
+  { id: 2, name: 'منتج ٢', price: '35,000 د.ع' },
+  { id: 3, name: 'منتج ٣', price: '12,000 د.ع' },
+  { id: 4, name: 'منتج ٤', price: '52,000 د.ع' },
 ];
 
 const StoreHomePage = () => {
   return (
-    <Box>
-      [cite_start]{/* 1. Hero Banner [cite: 1147] */}
-      <Flex
-        bg="blue.600"
-        color="white"
-        p={10}
-        align="center"
-        justify="space-between"
-        m={8}
-        borderRadius="lg"
-      >
-        <VStack align="flex-start" spacing={3}>
-          <Heading size="lg">افضل عرض</Heading>
-          <Text>جهاز 30</Text>
-        </VStack>
-        {/* We can add an image here later */}
-      </Flex>
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Hero */}
+      <section className="bg-surface rounded-2xl border border-gray-100 shadow-md shadow-gray-100 p-6 sm:p-8">
+        <div className="flex flex-col md:flex-row md:items-center gap-6">
+          <div className="flex-1 space-y-2 text-right">
+            <h1 className="text-2xl sm:text-3xl font-black text-text-primary">
+              أهلاً بك في متجر Box Smart
+            </h1>
+            <p className="text-sm text-text-secondary">
+              اكتشف أفضل المنتجات المختارة بعناية، مع تجربة شراء بسيطة وسريعة.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      [cite_start]{/* 2. Products Grid [cite: 1148, 1149, 1150, 1151] */}
-      <Box p={8}>
-        <SimpleGrid columns={{ base: 2, md: 4 }} spacing={6}>
+      {/* Products grid */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-black text-text-primary">
+            المنتجات المميزة
+          </h2>
+          <button className="text-xs font-bold text-primary hover:text-primary-700">
+            مشاهدة الكل
+          </button>
+        </div>
+
+        <div className="grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
           {productsData.map((product) => (
             <StoreProductCard key={product.id} product={product} />
           ))}
-        </SimpleGrid>
-      </Box>
-    </Box>
+        </div>
+      </section>
+    </div>
   );
 };
 

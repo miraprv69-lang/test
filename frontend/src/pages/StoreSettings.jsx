@@ -1,128 +1,90 @@
-// frontend/src/pages/StoreSettings.jsx
-import React from 'react';
-import { Heading, Button, Text } from '@chakra-ui/react';
-import { Box, VStack, SimpleGrid, HStack } from '@chakra-ui/layout';
-import { FormControl, FormLabel } from '@chakra-ui/form-control';
-import { Input } from '@chakra-ui/input';
-import { Select } from '@chakra-ui/select';
-import {
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-} from '@chakra-ui/tabs';
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 
-const StoreSettings = () => {
+export default function StoreSettings() {
   return (
-    <Box>
-      <Heading size="lg" mb="8">أعدادات المتجر</Heading>
+    <div className="w-full">
 
-      <Tabs variant="enclosed-colored" colorScheme="blue">
-        <TabList>
-          <Tab>المعلومات الأساسية</Tab>
-          <Tab>تفاصيل التوصيل</Tab>
-        </TabList>
-        <TabPanels>
-          
-          {/* Panel 1: Basic Info (from Page 53) */}
-          <TabPanel>
-            <VStack as="form" spacing={4} bg="white" p={6} borderRadius="lg" shadow="sm">
-              <FormControl>
-                <FormLabel>أسم المتجر</FormLabel>
-                <Input placeholder="مثلا: متجر بوكسي" />
-              </FormControl>
-              
-              <FormControl>
-                <FormLabel>العنوان</FormLabel>
-                <Input placeholder="البصرة حي الفلاح..." />
-              </FormControl>
+      {/* TITLE */}
+      <h1 className="text-2xl font-bold mb-6">إعدادات المتجر</h1>
 
-              <SimpleGrid columns={2} spacing={4} w="full">
-                <FormControl>
-                  <FormLabel>رقم التواصل</FormLabel>
-                  <Input placeholder="077..." />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>رقم التواصل 2 (اختياري)</FormLabel>
-                  <Input placeholder="077..." />
-                </FormControl>
-              </SimpleGrid>
+      {/* FORM CARD */}
+      <div className="bg-white shadow-card rounded-xl p-8">
 
-              <FormControl>
-                <FormLabel>البريد الالكتروني</FormLabel>
-                <Input placeholder="example@gmail.com" />
-              </FormControl>
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-              <FormControl>
-                <FormLabel>اقل مبلغ للطلب</FormLabel>
-                <Input placeholder="5000" />
-                <Text fontSize="sm" color="gray.500" mt={2}>
-                  أقل سعر لانشاء طلب (مثال: 5,000 دينار عراقي)
-                </Text>
-              </FormControl>
+          {/* Store Name */}
+          <div className="space-y-2">
+            <label className="font-medium text-sm">اسم المتجر</label>
+            <Input placeholder="أدخل اسم المتجر" />
+          </div>
 
-              <Heading size="md" pt={4} w="full">روابط التواصل الاجتماعي</Heading>
+          {/* Phone */}
+          <div className="space-y-2">
+            <label className="font-medium text-sm">رقم الهاتف</label>
+            <Input placeholder="0770xxxxxxx" />
+          </div>
 
-              <SimpleGrid columns={2} spacing={4} w="full">
-                <FormControl>
-                  <FormLabel>رابط صفحة انستا</FormLabel>
-                  <Input placeholder="https://instagram.com/..." />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>رابط تليكرام</FormLabel>
-                  <Input placeholder="https://t.me/..." />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>رابط فيسبوك</FormLabel>
-                  <Input placeholder="https://facebook.com/..." />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>رابط سناب جات</FormLabel>
-                  <Input placeholder="https://snapchat.com/..." />
-                </FormControl>
-              </SimpleGrid>
-            </VStack>
-          </TabPanel>
+          {/* Description */}
+          <div className="col-span-2 space-y-2">
+            <label className="font-medium text-sm">وصف المتجر</label>
+            <textarea
+              placeholder="اكتب وصفاً مختصراً عن متجرك"
+              className="w-full h-28 rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none text-sm focus:ring-2 focus:ring-primary"
+            ></textarea>
+          </div>
 
-          {/* Panel 2: Delivery Details (from Page 53) */}
-          <TabPanel>
-            <VStack as="form" spacing={4} bg="white" p={6} borderRadius="lg" shadow="sm">
-              <Heading size="md" w="full">أعدادات توصيل المحافظات</Heading>
-              
-              <FormControl>
-                <FormLabel>أختر محافظة</FormLabel>
-                <Select placeholder="أختر محافظة للتعديل">
-                  <option value="baghdad">بغداد</option>
-                  <option value="mosul">الموصل</option>
-                  <option value="basra">البصرة</option>
-                </Select>
-              </FormControl>
-              
-              <FormControl>
-                <FormLabel>سعر التوصيل للمحافظة المختارة</FormLabel>
-                <Input placeholder="5000" />
-              </FormControl>
-              
-              <FormControl>
-                <FormLabel>التوصيل متوفر؟</FormLabel>
-                <Select>
-                  <option value="yes">نعم</option>
-                  <option value="no">لا</option>
-                </Select>
-              </FormControl>
-            </VStack>
-          </TabPanel>
+          {/* Address */}
+          <div className="col-span-2 space-y-2">
+            <label className="font-medium text-sm">العنوان</label>
+            <Input placeholder="المدينة، المنطقة، الشارع" />
+          </div>
 
-        </TabPanels>
-      </Tabs>
+          {/* Currency */}
+          <div className="space-y-2">
+            <label className="font-medium text-sm">العملة</label>
+            <select className="w-full bg-gray-100 px-4 py-3 rounded-xl text-sm outline-none">
+              <option>الدينار العراقي (د.ع)</option>
+              <option>الدولار (USD)</option>
+            </select>
+          </div>
 
-      <HStack mt={8} justify="flex-start">
-        <Button colorScheme="blue">حفظ التغييرات</Button>
-        <Button variant="ghost">الغاء التعديلات</Button>
-      </HStack>
-    </Box>
+          {/* Language */}
+          <div className="space-y-2">
+            <label className="font-medium text-sm">اللغة</label>
+            <select className="w-full bg-gray-100 px-4 py-3 rounded-xl text-sm outline-none">
+              <option>العربية</option>
+              <option>English</option>
+            </select>
+          </div>
+
+          {/* Logo Upload */}
+          <div className="space-y-2">
+            <label className="font-medium text-sm">شعار المتجر</label>
+            <div className="w-full h-28 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500">
+              اضغط لرفع الشعار
+            </div>
+          </div>
+
+          {/* Cover Upload */}
+          <div className="space-y-2">
+            <label className="font-medium text-sm">صورة الغلاف</label>
+            <div className="w-full h-28 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500">
+              اضغط لرفع الغلاف
+            </div>
+          </div>
+
+        </form>
+
+        {/* SAVE BUTTON */}
+        <div className="flex justify-end mt-8">
+          <Button className="px-8 py-3 text-lg rounded-xl">
+            حفظ التغييرات
+          </Button>
+        </div>
+
+      </div>
+
+    </div>
   );
-};
-
-export default StoreSettings;
+}
